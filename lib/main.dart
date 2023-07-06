@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   final String title;
   const MyHomePage({
     super.key,
@@ -27,46 +27,47 @@ class MyHomePage extends StatelessWidget {
   });
 
   @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<int> tickets = [];
+  void takeTickets() {
+    int takeNumber = Random().nextInt(100);
+    setState(() {
+      tickets.add(takeNumber);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            int takeNumber = Random().nextInt(100);
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  shape: ShapeBorder.lerp(
-                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      1),
-                  title: Text('Ticket'),
-                  content: Text('Su ticket es el $takeNumber'),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Ok'))
-                  ],
-                );
-              },
-            );
-          },
-          tooltip: 'Tomar ticket',
-          child: const Icon(Icons.add),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: ElevatedButton(onPressed: () {}, child: const Text('Tomar ticket')),
+      appBar: AppBar(title: Text(widget.title)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: takeTickets,
+        tooltip: 'Tomar ticket',
+        child: const Icon(Icons.add),
+      ),
+      body: GridView.builder(
+        itemCount: tickets.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.confirmation_num, size: 50, color: Colors.blue),
+                  Text(
+                    'Ticket ${tickets[index]}',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                ],
               ),
-            ],
-          ),
-        ));
+            ),
+          );
+        },
+      ),
+    );
   }
 }
