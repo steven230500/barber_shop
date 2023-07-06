@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Barber ticket',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
       home: const MyHomePage(title: 'Barber ticket shop'),
     );
@@ -50,16 +50,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: GridView.builder(
         itemCount: tickets.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
           return Card(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.confirmation_num, size: 50, color: Colors.blue),
+                  const Icon(Icons.confirmation_num,
+                      size: 50, color: Colors.pinkAccent),
                   Text(
-                    'Ticket ${tickets[index]}',
+                    'Turnito ${tickets[index]}',
                     style: Theme.of(context).textTheme.headline5,
                   ),
                 ],
