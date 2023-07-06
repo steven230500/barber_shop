@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -28,16 +30,43 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text(title)),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: ElevatedButton(onPressed: () {}, child: Text('Tomar ticket')),
-            ),
-            Text('Home page'),
-          ],
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            int takeNumber = Random().nextInt(100);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  shape: ShapeBorder.lerp(
+                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      1),
+                  title: Text('Ticket'),
+                  content: Text('Su ticket es el $takeNumber'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Ok'))
+                  ],
+                );
+              },
+            );
+          },
+          tooltip: 'Tomar ticket',
+          child: const Icon(Icons.add),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: ElevatedButton(onPressed: () {}, child: const Text('Tomar ticket')),
+              ),
+            ],
+          ),
         ));
   }
 }
